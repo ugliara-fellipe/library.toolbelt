@@ -5,6 +5,7 @@
 // in the LICENSE file at https://github.com/ugliara-fellipe/library.datatype
 //
 #include "text.h"
+#include "inspect.h"
 
 static void _alloc_(text_t *self, args_t arguments) {
   char *value = next_arg(arguments, char *);
@@ -27,7 +28,7 @@ static bool _equal_(text_t *self, text_t *object) {
 }
 
 static void _inspect_(text_t *self, inspect_t *inspect) {
-  inspect_value_node(inspect, self, self->value, object_type(self));
+  inspect_value_node(inspect, self, self->value);
 }
 
 def_prototype_source(text_t, _alloc_, _free_, _copy_, _equal_, _inspect_);
@@ -177,10 +178,14 @@ void text_replace(text_t *self, const char *replace, const char *with) {
 
 void text_test() {
   text_t *text1 = alloc(text_t, "text1");
+  context_set(text1, "test");
+  assert(strcmp(context_get(text1), "test") == 0);
   assert(text_compare(text1, "text1") == true);
   text_t *text2 = copy(text1);
   assert(text_compare(text2, "text1") == true);
   text_t *text3 = clone(text2, "text3");
+  context_set(text3, "test3");
+  assert(strcmp(context_get(text3), "test3") == 0);
   assert(type_equal(text3, "text_t") == true);
   assert(text_compare(text3, "text3") == true);
   dealloc(text1);

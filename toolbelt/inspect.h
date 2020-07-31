@@ -17,16 +17,13 @@ void inspect_dealloc(inspect_t *self);
 
 void inspect_perform(inspect_t *self, const char *file_path_name);
 
-void inspect_value_node(inspect_t *self, void *address, const char *value,
-                        const char *type);
+void inspect_value_node(inspect_t *self, void *object, const char *value);
 
-void inspect_pair_node(inspect_t *self, void *address, const char *key,
-                       void *address_value);
+void inspect_pair_node(inspect_t *self, void *object);
 
-void inspect_array_node(inspect_t *self, void *address, size_t size,
-                        const char *type);
+void inspect_list_node(inspect_t *self, void *object, void *list);
 
-void inspect_add_edge(inspect_t *self, void *from_address, const char *from_sub,
-                      void *to_address, const char *to_sub);
+void inspect_add_edge(inspect_t *self, void *from, const char *from_id,
+                      void *to, const char *to_id);
 
 #endif

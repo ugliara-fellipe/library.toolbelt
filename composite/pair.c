@@ -5,11 +5,13 @@
 // in the LICENSE file at https://github.com/ugliara-fellipe/library.datatype
 //
 #include "pair.h"
+#include "inspect.h"
 
 static void _alloc_(pair_t *self, args_t arguments) {
   char *key = next_arg(arguments, char *);
   object_t value = next_arg(arguments, object_t);
   self->key = alloc(text_t, key);
+  context_set(self->key, "key");
   self->value = value;
 }
 
@@ -28,7 +30,7 @@ static bool _equal_(pair_t *self, pair_t *object) {
 }
 
 static void _inspect_(pair_t *self, inspect_t *inspect) {
-  inspect_pair_node(inspect, self, self->key->value, self->value);
+  inspect_pair_node(inspect, self);
   object_inspect(self->value, inspect);
 }
 

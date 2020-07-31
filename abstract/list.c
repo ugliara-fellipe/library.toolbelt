@@ -5,7 +5,7 @@
 // in the LICENSE file at https://github.com/ugliara-fellipe/library.datatype
 //
 #include "list.h"
-
+#include "inspect.h"
 #include "number.h"
 
 static void _alloc_(list_t *self, args_t arguments) {
@@ -64,7 +64,7 @@ static bool _equal_(list_t *self, list_t *object) {
 }
 
 static void _inspect_(list_t *self, inspect_t *inspect) {
-  inspect_array_node(inspect, self, self->size, object_type(self));
+  inspect_list_node(inspect, self, self);
   list_for(self, index, object_t, item, {
     char index_str[50];
     snprintf(index_str, 50, "i%zu", index);

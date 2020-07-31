@@ -5,10 +5,12 @@
 // in the LICENSE file at https://github.com/ugliara-fellipe/library.datatype
 //
 #include "prototype.h"
+#include "inspect.h"
 
 static object_t object_init(object_t self, object_t prototype_header) {
   header_t *header = self;
   memcpy(header, prototype_header, sizeof(header_t));
+  header->_context_ = NULL;
   header->_referrers_ = NULL;
   return (cast(object_t, header) + sizeof(header_t));
 }
@@ -98,6 +100,12 @@ void detach(object_t self, void **address) {
   } while (node != NULL);
 }
 
+void context_set(object_t self, const char *context) {
+  get_header(self)->_context_ = context;
+}
+
+const char *context_get(object_t self) { return get_header(self)->_context_; }
+
 const char *object_type(object_t self) { return get_header(self)->_type_(); }
 
 bool type_equal(object_t self, const char *str) {
@@ -117,15 +125,15 @@ bool equal(object_t self, object_t object) {
   return false;
 }
 
+void object_inspect(object_t self, void *inspect) {
+  get_header(self)->_inspect_(self, inspect);
+}
+
 void inspect(object_t self, const char *snapshot) {
   inspect_t *inspect = inspect_alloc();
   object_inspect(self, inspect);
   inspect_perform(inspect, snapshot);
   inspect_dealloc(inspect);
-}
-
-void object_inspect(object_t self, inspect_t *inspect) {
-  get_header(self)->_inspect_(self, inspect);
 }
 
 size_t ref_size(object_t self) {

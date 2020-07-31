@@ -22,7 +22,7 @@ mkdir deploy/include/primitive
 mkdir deploy/include/toolbelt
 
 clang toolbelt/crash.c -c -o deploy/object/crash.o
-clang toolbelt/inspect.c -c -o deploy/object/inspect.o
+clang toolbelt/inspect.c -c -I abstract -I composite -o deploy/object/inspect.o
 
 clang composite/prototype.c -c -I toolbelt -o deploy/object/prototype.o
 clang composite/text.c -c -I composite -I toolbelt -o deploy/object/text.o

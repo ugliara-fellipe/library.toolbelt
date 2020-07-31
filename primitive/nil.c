@@ -5,6 +5,7 @@
 // in the LICENSE file at https://github.com/ugliara-fellipe/library.datatype
 //
 #include "nil.h"
+#include "inspect.h"
 
 static void _alloc_(nil_t *self, args_t arguments) {}
 
@@ -15,7 +16,7 @@ static void _copy_(nil_t *self, nil_t *object) {}
 static bool _equal_(nil_t *self, nil_t *object) { return true; }
 
 static void _inspect_(nil_t *self, inspect_t *inspect) {
-  inspect_value_node(inspect, self, "", object_type(self));
+  inspect_value_node(inspect, self, "");
 }
 
 def_prototype_source(nil_t, _alloc_, _free_, _copy_, _equal_, _inspect_);

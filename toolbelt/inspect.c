@@ -10,6 +10,10 @@
 
 #include "crash.h"
 #include "inspect.h"
+#include "list.h"
+#include "pair.h"
+#include "prototype.h"
+#include "table.h"
 
 inspect_t *inspect_alloc() {
   inspect_t *object = malloc(sizeof(inspect_t));
@@ -63,32 +67,39 @@ static void inspect_append(char **self, const char *value) {
   strcat(*self, value);
 }
 
-void inspect_value_node(inspect_t *self, void *address, const char *value,
-                        const char *type) {
+void inspect_value_node(inspect_t *self, void *object, const char *value) {
   char address_str[30];
-  snprintf(address_str, 30, "\"%p\"", address);
+  snprintf(address_str, 30, "\"%p\"", object);
   inspect_append(&(self->nodes), "  ");
   inspect_append(&(self->nodes), address_str);
   inspect_append(&(self->nodes), " [shape=record, label=\"");
+  if (context_get(object) != NULL) {
+    inspect_append(&(self->nodes), context_get(object));
+    inspect_append(&(self->nodes), "\\n");
+  }
   inspect_append(&(self->nodes), value);
   inspect_append(&(self->nodes), " :");
-  inspect_append(&(self->nodes), type);
+  inspect_append(&(self->nodes), object_type(object));
   inspect_append(&(self->nodes), "\"];\n");
 }
 
-void inspect_pair_node(inspect_t *self, void *address, const char *key,
-                       void *address_value) {
+void inspect_pair_node(inspect_t *self, void *object) {
   char address_str[30];
-  snprintf(address_str, 30, "\"%p\"", address);
+  snprintf(address_str, 30, "\"%p\"", object);
   inspect_append(&(self->nodes), "  ");
   inspect_append(&(self->nodes), address_str);
   inspect_append(&(self->nodes), " [shape=record, label=\"{");
-  inspect_append(&(self->nodes), key);
+  if (context_get(object) != NULL) {
+    inspect_append(&(self->nodes), context_get(object));
+    inspect_append(&(self->nodes), "\\n");
+  }
+  pair_t *pair = (pair_t *)object;
+  inspect_append(&(self->nodes), pair->key->value);
   inspect_append(&(self->nodes), " :text_t | <value> ~ :object_t");
   inspect_append(&(self->nodes), "}\"];\n");
 
   char address_value_str[30];
-  snprintf(address_value_str, 30, "\"%p\"", address_value);
+  snprintf(address_value_str, 30, "\"%p\"", pair->value);
   inspect_append(&(self->edges), "  ");
   inspect_append(&(self->edges), address_str);
   inspect_append(&(self->edges), ":value -> ");
@@ -96,14 +107,14 @@ void inspect_pair_node(inspect_t *self, void *address, const char *key,
   inspect_append(&(self->edges), ";\n");
 }
 
-void inspect_array_node(inspect_t *self, void *address, size_t size,
-                        const char *type) {
+void inspect_list_node(inspect_t *self, void *object, void *list) {
   char address_str[30];
-  snprintf(address_str, 30, "\"%p\"", address);
+  snprintf(address_str, 30, "\"%p\"", object);
   inspect_append(&(self->nodes), "  ");
   inspect_append(&(self->nodes), address_str);
   inspect_append(&(self->nodes), " [shape=record, label=\"{");
-  for (size_t index = 0; index < size; index++) {
+
+  for (size_t index = 0; index < ((list_t *)list)->size; index++) {
     inspect_append(&(self->nodes), "<i");
     char index_str[50];
     snprintf(index_str, 50, "%zu", index);
@@ -112,31 +123,35 @@ void inspect_array_node(inspect_t *self, void *address, size_t size,
     inspect_append(&(self->nodes), index_str);
     inspect_append(&(self->nodes), " | ");
   }
+  if (context_get(object) != NULL) {
+    inspect_append(&(self->nodes), context_get(object));
+    inspect_append(&(self->nodes), "\\n");
+  }
   inspect_append(&(self->nodes), " :");
-  inspect_append(&(self->nodes), type);
+  inspect_append(&(self->nodes), object_type(object));
   inspect_append(&(self->nodes), "}\"];\n");
 }
 
-void inspect_add_edge(inspect_t *self, void *from_address, const char *from_sub,
-                      void *to_address, const char *to_sub) {
+void inspect_add_edge(inspect_t *self, void *from, const char *from_id,
+                      void *to, const char *to_id) {
   char from_str[30];
-  snprintf(from_str, 30, "\"%p\"", from_address);
+  snprintf(from_str, 30, "\"%p\"", from);
 
   char to_str[30];
-  snprintf(to_str, 30, "\"%p\"", to_address);
+  snprintf(to_str, 30, "\"%p\"", to);
 
   inspect_append(&(self->edges), "  ");
   inspect_append(&(self->edges), from_str);
-  if (from_sub != NULL) {
+  if (from_id != NULL) {
     inspect_append(&(self->edges), ":");
-    inspect_append(&(self->edges), from_sub);
+    inspect_append(&(self->edges), from_id);
   }
   inspect_append(&(self->edges), " -> ");
 
   inspect_append(&(self->edges), to_str);
-  if (to_sub != NULL) {
+  if (to_id != NULL) {
     inspect_append(&(self->edges), ":");
-    inspect_append(&(self->edges), to_sub);
+    inspect_append(&(self->edges), to_id);
   }
 
   inspect_append(&(self->edges), ";\n");

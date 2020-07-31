@@ -5,6 +5,7 @@
 // in the LICENSE file at https://github.com/ugliara-fellipe/library.datatype
 //
 #include "logic.h"
+#include "inspect.h"
 
 static void _alloc_(logic_t *self, args_t arguments) {
   bool value = next_arg(arguments, int);
@@ -26,9 +27,9 @@ static bool _equal_(logic_t *self, logic_t *object) {
 
 static void _inspect_(logic_t *self, inspect_t *inspect) {
   if (self->value) {
-    inspect_value_node(inspect, self, "true", object_type(self));
+    inspect_value_node(inspect, self, "true");
   } else {
-    inspect_value_node(inspect, self, "false", object_type(self));
+    inspect_value_node(inspect, self, "false");
   }
 }
 

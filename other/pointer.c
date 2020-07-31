@@ -5,7 +5,7 @@
 // in the LICENSE file at https://github.com/ugliara-fellipe/library.datatype
 //
 #include "pointer.h"
-
+#include "inspect.h"
 #include "nil.h"
 
 static void _alloc_(pointer_t *self, args_t arguments) {
@@ -39,7 +39,7 @@ static bool _equal_(pointer_t *self, pointer_t *object) {
 }
 
 static void _inspect_(pointer_t *self, inspect_t *inspect) {
-  inspect_value_node(inspect, self, "~", object_type(self));
+  inspect_value_node(inspect, self, "~");
   inspect_add_edge(inspect, self, NULL, self->value, NULL);
   object_inspect(self->value, inspect);
 }

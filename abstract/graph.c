@@ -5,5 +5,6 @@
 // in the LICENSE file at https://github.com/ugliara-fellipe/library.datatype
 //
 #include "graph.h"
+#include "inspect.h"
 
 void graph_test() {}

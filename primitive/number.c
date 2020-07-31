@@ -5,6 +5,7 @@
 // in the LICENSE file at https://github.com/ugliara-fellipe/library.datatype
 //
 #include "number.h"
+#include "inspect.h"
 
 static void _alloc_(number_t *self, args_t arguments) {
   double value = next_arg(arguments, double);
@@ -27,7 +28,7 @@ static bool _equal_(number_t *self, number_t *object) {
 static void _inspect_(number_t *self, inspect_t *inspect) {
   char value[50];
   snprintf(value, 50, "%.2f", self->value);
-  inspect_value_node(inspect, self, value, object_type(self));
+  inspect_value_node(inspect, self, value);
 }
 
 def_prototype_source(number_t, _alloc_, _free_, _copy_, _equal_, _inspect_);

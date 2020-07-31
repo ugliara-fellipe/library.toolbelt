@@ -5,6 +5,7 @@
 // in the LICENSE file at https://github.com/ugliara-fellipe/library.datatype
 //
 #include "table.h"
+#include "inspect.h"
 
 static void _alloc_(table_t *self, args_t arguments) {
   self->values = alloc(list_t);
@@ -21,7 +22,7 @@ static bool _equal_(table_t *self, table_t *object) {
 }
 
 static void _inspect_(table_t *self, inspect_t *inspect) {
-  inspect_array_node(inspect, self, self->values->size, object_type(self));
+  inspect_list_node(inspect, self, self->values);
   list_for(self->values, index, object_t, item, {
     char index_str[50];
     snprintf(index_str, 50, "i%zu", index);
@@ -68,6 +69,9 @@ void table_test() {
   table_add(table, "key2", t2);
   text_t *t3 = alloc(text_t, "value3");
   table_add(table, "key3", t3);
+  // Uncomment inspect, after run dot to create the graph
+  // dot -T svg graph.gv -o img.svg
+  // inspect(table,"graph");
   table_del(table, "key2");
   pair_t *pair = table_get_pair(table, "key3");
   assert(text_compare(pair->key, "key3") == true);

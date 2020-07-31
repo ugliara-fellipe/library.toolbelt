@@ -16,8 +16,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "inspect.h"
-
 typedef size_t index_t;
 typedef void *object_t;
 typedef va_list args_t;
@@ -30,13 +28,14 @@ struct ref_t {
 };
 
 typedef struct {
+  const char *_context_;
   const char *(*_type_)(void);
   size_t (*_size_)(void);
   void (*_alloc_)(object_t, args_t);
   void (*_free_)(object_t);
   void (*_copy_)(object_t, object_t);
   bool (*_equal_)(object_t, object_t);
-  void (*_inspect_)(object_t, inspect_t *);
+  void (*_inspect_)(object_t, void *);
   ref_t *_referrers_;
 } header_t;
 
@@ -53,13 +52,14 @@ typedef struct {
   static size_t _##type##_size_() { return sizeof(type); }                     \
                                                                                \
   static header_t type##_header_prototype =                                    \
-      (header_t){_##type##_type_,                                              \
+      (header_t){NULL,                                                         \
+                 _##type##_type_,                                              \
                  _##type##_size_,                                              \
                  ((void (*)(object_t, args_t))_alloc_),                        \
                  ((void (*)(object_t))_free_),                                 \
                  ((void (*)(object_t, object_t))_copy_),                       \
                  ((bool (*)(object_t, object_t))_equal_),                      \
-                 ((void (*)(object_t, inspect_t *))_inspect_),                 \
+                 ((void (*)(object_t, void *))_inspect_),                      \
                  NULL};                                                        \
                                                                                \
   header_t *type##_prototype_header() { return &type##_header_prototype; }
@@ -77,12 +77,16 @@ object_t clone(object_t self, ...);
 void attach(object_t self, void **address);
 void detach(object_t self, void **address);
 
+void context_set(object_t self, const char *context);
+const char *context_get(object_t self);
+
 const char *object_type(object_t self);
 bool type_equal(object_t self, const char *str);
 bool object_type_equal(object_t self, object_t object);
 bool equal(object_t self, object_t object);
+
+void object_inspect(object_t self, void *inspect);
 void inspect(object_t self, const char *snapshot);
-void object_inspect(object_t self, inspect_t *inspect);
 
 size_t ref_size(object_t self);
 ref_t *ref_head(object_t self);
