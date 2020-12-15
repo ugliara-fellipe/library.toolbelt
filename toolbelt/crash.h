@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "term.h"
+
 #define __ONLY_FILE_NAME__                                                     \
   (strrchr(__FILE__, '/')                                                      \
        ? strrchr(__FILE__, '/') + 1                                            \
@@ -19,7 +21,9 @@
 void *crash_and_exit(const char *format, ...);
 
 #define crash(format, ...)                                                     \
-  crash_and_exit("%s: %d: crash: " format "\n", __ONLY_FILE_NAME__, __LINE__,  \
-                 ##__VA_ARGS__)
+  crash_and_exit(                                                              \
+      "%s: %d: " term_foreground(TERM_RED)                                     \
+          term_attr(TERM_BOLD) "crash" term_attr(TERM_RESET) ": " format "\n", \
+      __ONLY_FILE_NAME__, __LINE__, ##__VA_ARGS__)
 
 #endif

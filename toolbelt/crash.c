@@ -5,6 +5,7 @@
 // in the LICENSE file at https://github.com/ugliara-fellipe/library.datatype
 //
 #include "crash.h"
+#include "term.h"
 
 void *crash_and_exit(const char *format, ...) {
   va_list arguments;

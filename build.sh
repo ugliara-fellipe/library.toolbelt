@@ -21,6 +21,7 @@ mkdir deploy/include/other
 mkdir deploy/include/primitive
 mkdir deploy/include/toolbelt
 
+clang toolbelt/term.c -c -o deploy/object/term.o
 clang toolbelt/crash.c -c -o deploy/object/crash.o
 clang toolbelt/inspect.c -c -I abstract -I composite -o deploy/object/inspect.o
 
