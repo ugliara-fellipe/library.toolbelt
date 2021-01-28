@@ -68,11 +68,11 @@ merged:
 
    ```bash
    # Clone your fork of the repo into the current directory
-   git clone https://github.com/ugliara-fellipe/library.datatype
+   git clone https://github.com/ugliara-fellipe/library.toolbelt
    # Navigate to the newly cloned directory
-   cd library.datatype
+   cd library.toolbelt
    # Assign the original repo to a remote called "upstream"
-   git remote add upstream https://github.com/<upsteam-owner>/library.datatype
+   git remote add upstream https://github.com/<upsteam-owner>/library.toolbelt
    ```
 
 2. If you cloned a while ago, get the latest changes from upstream:
@@ -90,7 +90,7 @@ merged:
    ```
 
 4. Commit your changes in logical chunks. Please adhere to these [git commit
-   message guidelines](https://github.com/ugliara-fellipe/library.datatype/blob/master/.gitcommit)
+   message guidelines](https://github.com/ugliara-fellipe/library.toolbelt/blob/master/.gitcommit)
    or your code is unlikely be merged into the main project. Use Git's
    [interactive rebase](https://help.github.com/en/github/using-git/about-git-rebase)
    feature to tidy up your commits before making them public.
@@ -113,6 +113,6 @@ merged:
 ## Code of Conduct
 
 This project and everyone participating in it is governed by the 
-[Code of Conduct](https://github.com/ugliara-fellipe/library.datatype/blob/master/.github/CODE_OF_CONDUCT.md)
+[Code of Conduct](https://github.com/ugliara-fellipe/library.toolbelt/blob/master/.github/CODE_OF_CONDUCT.md)
 . By participating, you are expected to uphold this code. Please report 
 unacceptable behavior to <ugliara.fellipe@gmail.com>.

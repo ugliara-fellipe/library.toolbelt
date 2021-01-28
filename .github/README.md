@@ -1,6 +1,6 @@
-# Datatype
+# Toolbelt
 
-Datatype is a library designed to extend the C11 standard library. The goal is 
+Toolbelt is a library designed to extend the C11 standard library. The goal is 
 to improve the support for the development in C. The project modules redefine 
 the C types and create types like list, pair, prototype. This project depends 
 only on the C11 standard library.
@@ -34,7 +34,7 @@ sh format.sh
 
 ## Usage
 
-The best way to begin the use of **datatype** library is by studying the test 
+The best way to begin the use of **toolbelt** library is by studying the test 
 functions called in the *test.c* file. You will find examples of how to use the 
 major library features. For further assistance, contact me by email 
 (<ugliara.fellipe@gmail.com>). 
@@ -43,7 +43,7 @@ major library features. For further assistance, contact me by email
 
 Pull requests are welcome. Please open an issue first to discuss what you 
 would like to change. Read 
-[CONTRIBUTING.md](https://github.com/ugliara-fellipe/library.datatype/blob/master/.github/CONTRIBUTING.md) 
+[CONTRIBUTING.md](https://github.com/ugliara-fellipe/library.toolbelt/blob/master/.github/CONTRIBUTING.md) 
 for details on our code of conduct, and the process for submitting pull requests.
 
 ## License
@@ -51,4 +51,4 @@ for details on our code of conduct, and the process for submitting pull requests
 Copyright (c) 2020, Fellipe Augusto Ugliara
 
 Use of this source code is governed by an ISC license that can be found 
-in the LICENSE file at https://github.com/ugliara-fellipe/library.datatype
+in the LICENSE file at https://github.com/ugliara-fellipe/library.toolbelt

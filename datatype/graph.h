@@ -4,17 +4,11 @@
 // Use of this source code is governed by an ISC license that can be found
 // in the LICENSE file at https://github.com/ugliara-fellipe/library.toolbelt
 //
-#include "toolbelt.h"
+#ifndef GRAPH_H
+#define GRAPH_H
 
-int main() {
-  function_test();
-  graph_test();
-  list_test();
-  logic_test();
-  nil_test();
-  number_test();
-  pair_test();
-  pointer_test();
-  table_test();
-  text_test();
-}
+#include "extend/prototype.h"
+
+void graph_test();
+
+#endif
